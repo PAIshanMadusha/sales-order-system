@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SalesOrder.Domain.Entities;
+using SalesOrder.Infrastructure.Data.SeedData;
 using SalesOrderEntity = SalesOrder.Domain.Entities.SalesOrder;
 
 namespace SalesOrder.Infrastructure.Data
@@ -67,6 +68,9 @@ namespace SalesOrder.Infrastructure.Data
             modelBuilder.Entity<SalesOrderItem>()
                 .Property(p => p.InclAmount)
                 .HasPrecision(18, 2);
+
+            // Seed data
+            DbSeeder.Seed(modelBuilder);
         }
     }
 }

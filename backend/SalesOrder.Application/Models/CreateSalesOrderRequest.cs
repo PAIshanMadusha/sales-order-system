@@ -1,4 +1,4 @@
-namespace SalesOrder.API.Models;
+namespace SalesOrder.Application.Models;
 
 public class CreateSalesOrderRequest
 {

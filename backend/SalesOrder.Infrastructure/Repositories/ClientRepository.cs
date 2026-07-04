@@ -4,7 +4,7 @@ using SalesOrder.Infrastructure.Data;
 
 namespace SalesOrder.Infrastructure.Repositories;
 
-// Repository for managing client data
+// Repository for managing client data helps to abstract the data access layer and provides methods to interact with the Client entity in the database.
 public class ClientRepository : IClientRepository
 {
     private readonly ApplicationDbContext _context;

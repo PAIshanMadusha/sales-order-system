@@ -12,6 +12,7 @@ public class ItemService : IItemService
         _repo = repo;
     }
 
+    // Retrieves all items and maps them to a simplified object representation
     public async Task<IEnumerable<object>> GetAllAsync()
     {
         var items = await _repo.GetAllAsync();
@@ -25,6 +26,7 @@ public class ItemService : IItemService
         });
     }
 
+    // Retrieves an item by ID and maps it to a simplified object representation
     public async Task<object?> GetByIdAsync(int id)
     {
         var i = await _repo.GetByIdAsync(id);

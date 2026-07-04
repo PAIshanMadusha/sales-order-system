@@ -12,6 +12,7 @@ public class ClientService : IClientService
         _repo = repo;
     }
 
+    // Retrieves all clients and maps them to a simplified object representation
     public async Task<IEnumerable<object>> GetAllAsync()
     {
         var clients = await _repo.GetAllAsync();
@@ -29,6 +30,7 @@ public class ClientService : IClientService
         });
     }
 
+    // Retrieves a client by ID and maps it to a simplified object representation
     public async Task<object?> GetByIdAsync(int id)
     {
         var c = await _repo.GetByIdAsync(id);

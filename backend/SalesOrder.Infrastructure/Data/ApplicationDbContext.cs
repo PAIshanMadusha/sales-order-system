@@ -3,10 +3,11 @@ using SalesOrder.Domain.Entities;
 using SalesOrder.Infrastructure.Data.SeedData;
 using SalesOrderEntity = SalesOrder.Domain.Entities.SalesOrder;
 
+// ApplicationDbContext is the Entity Framework Core DbContext for the SalesOrder application
 namespace SalesOrder.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext
-    {
+    {   
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         { }
@@ -17,6 +18,7 @@ namespace SalesOrder.Infrastructure.Data
         public DbSet<SalesOrderEntity> SalesOrders => Set<SalesOrderEntity>();
         public DbSet<SalesOrderItem> SalesOrderItems => Set<SalesOrderItem>();
 
+        // Configure the model and relationships using Fluent API
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

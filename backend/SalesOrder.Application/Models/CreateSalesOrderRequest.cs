@@ -1,5 +1,6 @@
 namespace SalesOrder.Application.Models;
 
+// CreateSalesOrderRequest model represents the data required to create a new sales order
 public class CreateSalesOrderRequest
 {
     public int ClientId { get; set; }

@@ -1,5 +1,6 @@
 namespace SalesOrder.Application.Models;
 
+// SalesOrderResponse model represents the data returned for a sales order
 public class SalesOrderResponse
 {
     public int Id { get; set; }

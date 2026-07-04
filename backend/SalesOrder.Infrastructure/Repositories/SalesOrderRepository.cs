@@ -5,7 +5,7 @@ using SalesOrder.Infrastructure.Data;
 
 namespace SalesOrder.Infrastructure.Repositories;
 
-// Repository for managing sales order data
+// Repository for managing sales order data helps to abstract the data access layer and provides methods to interact with the SalesOrder entity in the database.
 public class SalesOrderRepository : ISalesOrderRepository
 {
     private readonly ApplicationDbContext _context;

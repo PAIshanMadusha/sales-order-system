@@ -1,3 +1,4 @@
+// Client entity represents a customer in the sales order system
 public class Client
 {
     public int Id { get; set; }

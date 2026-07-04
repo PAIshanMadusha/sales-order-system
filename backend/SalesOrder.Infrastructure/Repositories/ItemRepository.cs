@@ -4,7 +4,7 @@ using SalesOrder.Infrastructure.Data;
 
 namespace SalesOrder.Infrastructure.Repositories;
 
-// Repository for managing Item data
+// Repository for managing Item data helps to abstract the data access layer and provides methods to interact with the Item entity in the database.
 public class ItemRepository : IItemRepository
 {
     private readonly ApplicationDbContext _context;

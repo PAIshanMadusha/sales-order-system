@@ -1,5 +1,6 @@
 namespace SalesOrder.Domain.Entities;
 
+// SalesOrder entity represents a sales order in the system
 public class SalesOrder
 {
     public int Id { get; set; }

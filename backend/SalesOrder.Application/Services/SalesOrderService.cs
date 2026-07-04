@@ -4,6 +4,7 @@ using SalesOrder.Domain.Entities;
 
 namespace SalesOrder.Application.Services;
 
+// Implementation of the sales order service
 public class SalesOrderService : ISalesOrderService
 {
     private readonly IClientRepository _clientRepo;
@@ -171,6 +172,7 @@ public class SalesOrderService : ISalesOrderService
         };
     }
 
+    // Update an existing sales order
     public Task<SalesOrderResponse?> UpdateAsync(int id, CreateSalesOrderRequest request)
     {
         throw new NotImplementedException("UpdateAsync method is not implemented yet.");

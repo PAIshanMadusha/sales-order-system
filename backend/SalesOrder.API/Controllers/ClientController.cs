@@ -1,38 +1,36 @@
 using Microsoft.AspNetCore.Mvc;
-using SalesOrder.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
+using SalesOrder.Application.Interfaces;
 
-namespace SalesOrder.API.Controllers
+namespace SalesOrder.API.Controllers;
+
+// This controller handles the client related endpoints
+[ApiController]
+[Route("api/[controller]")]
+public class ClientController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ClientController : ControllerBase
+    private readonly IClientService _service;
+
+    public ClientController(IClientService service)
     {
-        private readonly ApplicationDbContext _context;
+        _service = service;
+    }
 
-        public ClientController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+    // Get: api/client
+    [HttpGet]
+    public async Task<IActionResult> GetClients()
+    {
+        return Ok(await _service.GetAllAsync());
+    }
 
-        // Get: api/client
-        [HttpGet]
-        public async Task<IActionResult> GetClients()
-        {
-            var clients = await _context.Clients.ToListAsync();
-            return Ok(clients);
-        }
+    // Get: api/client/{id}
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var result = await _service.GetByIdAsync(id);
 
-        // Get: api/client/{id}
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetClientById(int id)
-        {
-            var client = await _context.Clients.FirstOrDefaultAsync(x => x.Id == id);
+        if (result == null)
+            return NotFound();
 
-            if (client == null)
-                return NotFound();
-
-            return Ok(client);
-        }
+        return Ok(result);
     }
 }

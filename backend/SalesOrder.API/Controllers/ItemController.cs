@@ -1,38 +1,36 @@
 using Microsoft.AspNetCore.Mvc;
-using SalesOrder.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
+using SalesOrder.Application.Interfaces;
 
-namespace SalesOrder.API.Controllers
+namespace SalesOrder.API.Controllers;
+
+// This controller handles the item related endpoints
+[ApiController]
+[Route("api/[controller]")]
+public class ItemController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ItemController : ControllerBase
+    private readonly IItemService _service;
+
+    public ItemController(IItemService service)
     {
-        private readonly ApplicationDbContext _context;
+        _service = service;
+    }
 
-        public ItemController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+    // Get: api/item
+    [HttpGet]
+    public async Task<IActionResult> GetItems()
+    {
+        return Ok(await _service.GetAllAsync());
+    }
 
-        // Get: api/item
-        [HttpGet]
-        public async Task<IActionResult> GetItems()
-        {
-            var items = await _context.Items.ToListAsync();
-            return Ok(items);
-        }
+    // Get: api/item/{id}
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var result = await _service.GetByIdAsync(id);
 
-        // Get: api/item/{id}
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetItemById(int id)
-        {
-            var item = await _context.Items.FirstOrDefaultAsync(x => x.Id == id);
+        if (result == null)
+            return NotFound();
 
-            if (item == null)
-                return NotFound();
-
-            return Ok(item);
-        }
+        return Ok(result);
     }
 }

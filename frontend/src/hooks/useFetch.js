@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 
-// A custom hook that fetches data from an API and manages loading and error states
+// A custom hook that fetches data from an API and manages loading and error
+// This hook is not used in the current codebase but can be useful for future data fetching needs.
+// Redux is currently used for state management, but this hook can be used for simpler cases or when Redux is not needed.
 export default function useFetch(apiCall) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);

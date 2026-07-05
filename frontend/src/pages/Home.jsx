@@ -12,8 +12,10 @@ import Card from "../components/common/Card";
 export default function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  // Get orders and loading state from the Redux store
   const { orders = [], loading } = useSelector((state) => state.orders);
 
+  // Fetch orders when the component mounts
   useEffect(() => {
     dispatch(fetchOrders());
   }, [dispatch]);
@@ -28,6 +30,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-6xl mx-auto space-y-6">
+        {/* Page Header */}
         <PageHeader
           title="All Sales Orders"
           right={
@@ -35,6 +38,7 @@ export default function Home() {
           }
         />
 
+        {/* DataTable to display the list of orders with actions for viewing and deleting */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           {loading ? (
             <Loader />
@@ -65,6 +69,7 @@ export default function Home() {
           )}
         </div>
 
+        {/* Stats Cards for Order Summary */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Card>
             <div className="flex items-center justify-between">

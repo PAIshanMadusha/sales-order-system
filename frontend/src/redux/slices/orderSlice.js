@@ -15,10 +15,13 @@ const orderSlice = createSlice({
     selectedOrder: null,
     loading: false,
   },
-  // Reducer to set the selected order in the state
+  // Reducer to set the selected order in the state and clear it when needed
   reducers: {
     setSelectedOrder: (state, action) => {
       state.selectedOrder = action.payload;
+    },
+    clearSelectedOrder: (state) => {
+      state.selectedOrder = null;
     },
   },
   // Extra reducers to handle the async thunk actions for fetching orders
@@ -37,5 +40,5 @@ const orderSlice = createSlice({
   },
 });
 
-export const { setSelectedOrder } = orderSlice.actions;
+export const { setSelectedOrder, clearSelectedOrder } = orderSlice.actions;
 export default orderSlice.reducer;

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* Define custom theme variables for colors, fonts, and other design tokens */
 @theme {
     --color-primary: #2563eb;
     --color-secondary: #64748b;

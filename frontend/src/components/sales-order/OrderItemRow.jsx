@@ -44,7 +44,9 @@ export default function OrderItemRow({ items, value, onChange }) {
         <Input
           type="number"
           value={value.quantity}
-          onChange={(e) => handleChange("quantity", +e.target.value)}
+          onChange={(e) =>
+            handleChange("quantity", Math.max(1, Number(e.target.value) || 1))
+          }
         />
       </td>
 

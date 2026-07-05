@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { getClients } from "../services/clientService";
 import { getItems } from "../services/itemService";
 import { createOrder, updateOrder } from "../services/orderService";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { clearSelectedOrder } from "../redux/slices/orderSlice";
 import PageHeader from "../components/common/PageHeader";
 import Select from "../components/common/Select";
 import Input from "../components/common/Input";
@@ -18,9 +19,12 @@ import {
 
 export default function SalesOrder() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const [clients, setClients] = useState([]);
   const [items, setItems] = useState([]);
   const [orderItems, setOrderItems] = useState([]);
+  // Get the selected order from the Redux store to determine if we are editing an existing order
   const selectedOrder = useSelector((state) => state.orders.selectedOrder);
   const isEdit = !!selectedOrder;
 
@@ -114,28 +118,35 @@ export default function SalesOrder() {
 
   // Handle saving the order by sending the form data and order items to the backend
   const handleSave = async () => {
-    const payload = {
-      clientId: Number(form.clientId),
-      address1: form.address1,
-      address2: form.address2,
-      address3: form.address3,
-      suburb: form.suburb,
-      state: form.state,
-      postCode: form.postCode,
-      referenceNo: form.referenceNo,
-      invoiceNo: form.invoiceNo,
-      invoiceDate: form.invoiceDate,
-      items: orderItems,
-    };
-    if (isEdit) {
-      await updateOrder(selectedOrder.id, payload);
-    } else {
-      await createOrder(payload);
+    try {
+      setLoading(true);
+      const payload = {
+        clientId: Number(form.clientId),
+        address1: form.address1,
+        address2: form.address2,
+        address3: form.address3,
+        suburb: form.suburb,
+        state: form.state,
+        postCode: form.postCode,
+        referenceNo: form.referenceNo,
+        invoiceNo: form.invoiceNo,
+        invoiceDate: form.invoiceDate,
+        items: orderItems,
+      };
+      if (isEdit) {
+        await updateOrder(selectedOrder.id, payload);
+      } else {
+        await createOrder(payload);
+      }
+      dispatch(clearSelectedOrder());
+      handleReset();
+      navigate("/");
+      alert(
+        isEdit ? "Order updated successfully!" : "Order created successfully!",
+      );
+    } finally {
+      setLoading(false);
     }
-    navigate("/");
-    alert(
-      isEdit ? "Order updated successfully!" : "Order created successfully!",
-    );
   };
 
   // Reset the form and order items to their initial state
@@ -152,8 +163,8 @@ export default function SalesOrder() {
       invoiceNo: "",
       invoiceDate: "",
     });
-
     setOrderItems([{ itemId: "", note: "", quantity: 1, taxRate: 10 }]);
+    dispatch(clearSelectedOrder());
   };
 
   return (
@@ -163,7 +174,14 @@ export default function SalesOrder() {
           title={isEdit ? "Edit Sales Order" : "New Sales Order"}
           right={
             <div className="flex gap-2">
-              <Button onClick={() => navigate("/")}>Back to List</Button>
+              <Button
+                onClick={() => {
+                  dispatch(clearSelectedOrder());
+                  navigate("/");
+                }}
+              >
+                Back to List
+              </Button>
               <Button onClick={handleReset}>Reset Form</Button>
             </div>
           }
@@ -314,8 +332,16 @@ export default function SalesOrder() {
                     <span>Total</span>
                     <span>{totals.incl.toFixed(2)}</span>
                   </div>
-                  <Button className="w-full mt-4" onClick={handleSave}>
-                    {isEdit ? "Update Order" : "Save Order"}
+                  <Button
+                    className="w-full mt-4"
+                    onClick={handleSave}
+                    disabled={loading}
+                  >
+                    {loading
+                      ? "Saving..."
+                      : isEdit
+                        ? "Update Order"
+                        : "Save Order"}
                   </Button>
                 </div>
               </Card>

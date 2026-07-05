@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOrders, setSelectedOrder } from "../redux/slices/orderSlice";
+import { deleteOrder } from "../services/orderService";
 import DataTable from "../components/common/DataTable";
 import PageHeader from "../components/common/PageHeader";
 import Button from "../components/common/Button";
@@ -16,6 +17,13 @@ export default function Home() {
   useEffect(() => {
     dispatch(fetchOrders());
   }, [dispatch]);
+
+  // Handle delete order
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this order?")) return;
+    await deleteOrder(id);
+    dispatch(fetchOrders());
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
@@ -32,8 +40,16 @@ export default function Home() {
             <Loader />
           ) : (
             <DataTable
-              columns={["Order No", "Customer", "Date", "Total"]}
+              columns={[
+                "Order ID",
+                "Order No",
+                "Customer",
+                "Date",
+                "Total",
+                "Actions",
+              ]}
               data={orders.map((o) => ({
+                id: o.id,
                 orderNo: o.orderNo,
                 customer: o.customerName,
                 date: new Date(o.date).toLocaleDateString(),
@@ -44,6 +60,7 @@ export default function Home() {
                 dispatch(setSelectedOrder(order));
                 navigate("/order");
               }}
+              onDelete={handleDelete}
             />
           )}
         </div>

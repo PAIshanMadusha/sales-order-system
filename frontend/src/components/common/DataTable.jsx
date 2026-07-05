@@ -1,5 +1,5 @@
 // A reusable data table component that accepts columns, data, and a row click handler
-export default function DataTable({ columns, data, onRowClick }) {
+export default function DataTable({ columns, data, onRowClick, onDelete }) {
   return (
     <div className="w-full overflow-x-auto">
       <table className="min-w-full text-sm text-left">
@@ -35,6 +35,21 @@ export default function DataTable({ columns, data, onRowClick }) {
                     {val}
                   </td>
                 ))}
+                {onDelete && (
+                  <td
+                    className="px-4 py-3"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button
+                      onClick={() => {
+                        onDelete(row.id);
+                      }}
+                      className="text-red-500 hover:text-red-700 font-medium"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                )}
               </tr>
             ))
           )}

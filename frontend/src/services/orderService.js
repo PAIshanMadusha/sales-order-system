@@ -8,3 +8,9 @@ export const getOrders = () => api.get("/salesorder");
 
 // Get order by ID
 export const getOrderById = (id) => api.get(`/salesorder/${id}`);
+
+// Update an order by ID
+export const updateOrder = (id, data) => api.put(`/salesorder/${id}`, data);
+
+// Delete an order by ID
+export const deleteOrder = (id) => api.delete(`/salesorder/${id}`);

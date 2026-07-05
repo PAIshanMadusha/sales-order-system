@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getClients } from "../services/clientService";
 import { getItems } from "../services/itemService";
-import { createOrder } from "../services/orderService";
+import { createOrder, updateOrder } from "../services/orderService";
 import { useSelector } from "react-redux";
 import PageHeader from "../components/common/PageHeader";
 import Select from "../components/common/Select";
@@ -127,9 +127,15 @@ export default function SalesOrder() {
       invoiceDate: form.invoiceDate,
       items: orderItems,
     };
-    await createOrder(payload);
+    if (isEdit) {
+      await updateOrder(selectedOrder.id, payload);
+    } else {
+      await createOrder(payload);
+    }
     navigate("/");
-    alert("Order saved successfully!");
+    alert(
+      isEdit ? "Order updated successfully!" : "Order created successfully!",
+    );
   };
 
   // Reset the form and order items to their initial state

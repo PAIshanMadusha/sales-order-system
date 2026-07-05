@@ -1,23 +1,41 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { getOrders } from "../../services/orderService";
 
-// Define the initial state for the order slice
+// Async thunk to fetch orders from the API
+export const fetchOrders = createAsyncThunk("orders/fetchOrders", async () => {
+  const res = await getOrders();
+  return res.data;
+});
+
+// Redux slice for managing orders state
 const orderSlice = createSlice({
   name: "orders",
   initialState: {
     orders: [],
     selectedOrder: null,
+    loading: false,
   },
-  // Define the reducers for the order slice
+  // Reducer to set the selected order in the state
   reducers: {
-    setOrders: (state, action) => {
-      state.orders = action.payload;
-    },
     setSelectedOrder: (state, action) => {
       state.selectedOrder = action.payload;
     },
   },
+  // Extra reducers to handle the async thunk actions for fetching orders
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchOrders.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchOrders.fulfilled, (state, action) => {
+        state.orders = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchOrders.rejected, (state) => {
+        state.loading = false;
+      });
+  },
 });
 
-// Export the actions and reducer from the order slice
-export const { setOrders, setSelectedOrder } = orderSlice.actions;
+export const { setSelectedOrder } = orderSlice.actions;
 export default orderSlice.reducer;

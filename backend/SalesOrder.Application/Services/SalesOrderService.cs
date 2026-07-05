@@ -79,12 +79,16 @@ public class SalesOrderService : ISalesOrderService
         return new SalesOrderResponse
         {
             Id = order.Id,
+            ClientId = order.ClientId,
             OrderNo = order.OrderNo,
             ReferenceNo = order.ReferenceNo,
             CustomerName = client.CustomerName,
             Address1 = order.Address1,
             Address2 = order.Address2,
             Address3 = order.Address3,
+            Suburb = order.Client.Suburb,
+            State = order.Client.State,
+            PostCode = order.Client.PostCode,
             Date = order.Date,
             GrandTotal = order.GrandTotal,
             Items = order.Items.Select(i => new SalesOrderItemResponse
@@ -92,6 +96,7 @@ public class SalesOrderService : ISalesOrderService
                 ItemId = i.ItemId,
                 ItemCode = productCodePlaceholder(i.ItemId),
                 Description = "",
+                Note = i.Note,
                 Quantity = i.Quantity,
                 Price = i.Price,
                 TaxRate = i.TaxRate,
@@ -116,12 +121,16 @@ public class SalesOrderService : ISalesOrderService
         return orders.Select(o => new SalesOrderResponse
         {
             Id = o.Id,
+            ClientId = o.ClientId,
             OrderNo = o.OrderNo,
             ReferenceNo = o.ReferenceNo,
             CustomerName = o.Client.CustomerName,
             Address1 = o.Address1,
             Address2 = o.Address2,
             Address3 = o.Address3,
+            Suburb = o.Client.Suburb,
+            State = o.Client.State,
+            PostCode = o.Client.PostCode,
             Date = o.Date,
             GrandTotal = o.GrandTotal,
             Items = o.Items.Select(i => new SalesOrderItemResponse
@@ -129,6 +138,7 @@ public class SalesOrderService : ISalesOrderService
                 ItemId = i.ItemId,
                 ItemCode = i.Item?.ItemCode ?? "",
                 Description = i.Item?.Description ?? "",
+                Note = i.Note,
                 Quantity = i.Quantity,
                 Price = i.Price,
                 TaxRate = i.TaxRate,
@@ -149,12 +159,16 @@ public class SalesOrderService : ISalesOrderService
         return new SalesOrderResponse
         {
             Id = o.Id,
+            ClientId = o.ClientId,
             OrderNo = o.OrderNo,
             ReferenceNo = o.ReferenceNo,
             CustomerName = o.Client.CustomerName,
             Address1 = o.Address1,
             Address2 = o.Address2,
             Address3 = o.Address3,
+            Suburb = o.Client.Suburb,
+            State = o.Client.State,
+            PostCode = o.Client.PostCode,
             Date = o.Date,
             GrandTotal = o.GrandTotal,
             Items = o.Items.Select(i => new SalesOrderItemResponse
@@ -162,6 +176,7 @@ public class SalesOrderService : ISalesOrderService
                 ItemId = i.ItemId,
                 ItemCode = i.Item?.ItemCode ?? "",
                 Description = i.Item?.Description ?? "",
+                Note = i.Note,
                 Quantity = i.Quantity,
                 Price = i.Price,
                 TaxRate = i.TaxRate,
@@ -172,9 +187,15 @@ public class SalesOrderService : ISalesOrderService
         };
     }
 
-    // Update an existing sales order
+    // Todo: Update an existing sales order
     public Task<SalesOrderResponse?> UpdateAsync(int id, CreateSalesOrderRequest request)
     {
         throw new NotImplementedException("UpdateAsync method is not implemented yet.");
+    }
+
+    //Todo: Delete a sales order by its ID
+    public Task<bool> DeleteAsync(int id)
+    {
+        throw new NotImplementedException("DeleteAsync method is not implemented yet.");
     }
 }

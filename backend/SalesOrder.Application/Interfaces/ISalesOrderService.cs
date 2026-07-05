@@ -11,4 +11,6 @@ public interface ISalesOrderService
     Task<SalesOrderResponse?> GetByIdAsync(int id);
 
     Task<SalesOrderResponse?> UpdateAsync(int id, CreateSalesOrderRequest request);
+
+    Task<bool> DeleteAsync(int id);
 }

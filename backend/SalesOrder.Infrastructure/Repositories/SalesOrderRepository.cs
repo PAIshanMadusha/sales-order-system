@@ -44,6 +44,11 @@ public class SalesOrderRepository : ISalesOrderRepository
         return Task.CompletedTask;
     }
 
+    public void Remove(SalesOrderEntity order)
+    {
+        _context.SalesOrders.Remove(order);
+    }
+
     public async Task SaveChangesAsync()
     {
         await _context.SaveChangesAsync();

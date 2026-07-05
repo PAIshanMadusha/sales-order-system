@@ -187,15 +187,78 @@ public class SalesOrderService : ISalesOrderService
         };
     }
 
-    // Todo: Update an existing sales order
-    public Task<SalesOrderResponse?> UpdateAsync(int id, CreateSalesOrderRequest request)
+    // Update an existing sales order by its ID
+    public async Task<SalesOrderResponse?> UpdateAsync(int id, CreateSalesOrderRequest request)
     {
-        throw new NotImplementedException("UpdateAsync method is not implemented yet.");
+        var order = await _orderRepo.GetByIdAsync(id);
+
+        if (order == null)
+            return null;
+
+        var client = await _clientRepo.GetByIdAsync(request.ClientId);
+
+        if (client == null)
+            throw new Exception("Client not found");
+
+        // Update header
+        order.ClientId = request.ClientId;
+        order.Client = client;
+        order.ReferenceNo = request.ReferenceNo;
+        order.Address1 = request.Address1;
+        order.Address2 = request.Address2;
+        order.Address3 = request.Address3;
+
+        // Remove old items
+        order.Items.Clear();
+
+        decimal grandTotal = 0;
+
+        foreach (var item in request.Items)
+        {
+            var product = await _itemRepo.GetByIdAsync(item.ItemId);
+
+            if (product == null)
+                throw new Exception($"Item {item.ItemId} not found");
+
+            decimal excl = item.Quantity * product.Price;
+            decimal tax = excl * item.TaxRate / 100;
+            decimal incl = excl + tax;
+
+            grandTotal += incl;
+
+            order.Items.Add(new SalesOrderItem
+            {
+                ItemId = item.ItemId,
+                Quantity = item.Quantity,
+                TaxRate = item.TaxRate,
+                Price = product.Price,
+                ExclAmount = excl,
+                TaxAmount = tax,
+                InclAmount = incl,
+                Note = item.Note,
+                Item = product
+            });
+        }
+
+        order.GrandTotal = grandTotal;
+
+        await _orderRepo.UpdateAsync(order);
+        await _orderRepo.SaveChangesAsync();
+
+        return await GetByIdAsync(order.Id);
     }
 
-    //Todo: Delete a sales order by its ID
-    public Task<bool> DeleteAsync(int id)
+    // Delete a sales order by its ID
+    public async Task<bool> DeleteAsync(int id)
     {
-        throw new NotImplementedException("DeleteAsync method is not implemented yet.");
+        var order = await _orderRepo.GetByIdAsync(id);
+
+        if (order == null)
+            return false;
+
+        _orderRepo.Remove(order);
+        await _orderRepo.SaveChangesAsync();
+
+        return true;
     }
 }

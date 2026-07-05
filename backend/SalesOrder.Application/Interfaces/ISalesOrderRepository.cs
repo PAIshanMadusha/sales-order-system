@@ -8,5 +8,6 @@ public interface ISalesOrderRepository
     Task<SalesOrderEntity?> GetByIdAsync(int id);
     Task AddAsync(SalesOrderEntity order);
     Task UpdateAsync(SalesOrderEntity order);
+    void Remove(SalesOrderEntity order);
     Task SaveChangesAsync();
 }

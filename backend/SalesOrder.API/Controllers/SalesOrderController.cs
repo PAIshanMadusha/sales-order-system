@@ -43,4 +43,28 @@ public class SalesOrderController : ControllerBase
 
         return Ok(result);
     }
+
+    // Put: api/salesorder/{id}
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, CreateSalesOrderRequest request)
+    {
+        var result = await _service.UpdateAsync(id, request);
+
+        if (result == null)
+            return NotFound();
+
+        return Ok(result);
+    }
+
+    // Delete: api/salesorder/{id}
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var result = await _service.DeleteAsync(id);
+
+        if (!result)
+            return NotFound();
+
+        return Ok(new { message = "Order deleted successfully!" });
+    }
 }

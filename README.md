@@ -19,7 +19,7 @@
 
 ---
 
-A full-stack **Sales Order Management System** consisting of a **.NET 8 Web API** backend built with **C#** following **Clean Architecture** principles, and a modern frontend developed using **React**, **Redux Toolkit**, and **Tailwind CSS**. The application demonstrates a real-world layered architecture with complete **CRUD functionality** for sales order management, clear separation of business logic, centralized state management, and a responsive, user-friendly interface.
+A full-stack **Sales Order Management System** consisting of a **.NET 8 Web API backend** built with **C#** following **Clean Architecture principles**, and a modern frontend developed using **React**, **Redux Toolkit**, and **Tailwind CSS**. The application demonstrates a real-world layered architecture with complete **CRUD operations** for sales order management, separation of business logic, centralized state management, and a responsive user-friendly interface.
 
 ## 🚀 Features
 
@@ -54,6 +54,7 @@ A full-stack **Sales Order Management System** consisting of a **.NET 8 Web API*
 * Home page displaying all sales orders in a responsive table
 * Create new sales orders and edit existing orders
 * Reset form functionality to quickly clear all entered data
+* Structured order data design that can be extended with printing/report generation features
 
 ---
 
@@ -64,8 +65,8 @@ The following technologies and tools are used throughout the project:
 | :----------------------- | :---------------------------------- | :--------------------------------------------------------------------------------- |
 | **Backend Framework**    | .NET 8 Web API                      | RESTful API development using ASP.NET Core.                                        |
 | **Programming Language** | C#                                  | Primary language used for backend development.                                     |
-| **Architecture**         | Clean Architecture (Layered/N-Tier) | Separates API, Application, Domain, and Infrastructure layers for maintainability. |
-| **ORM**                  | Entity Framework Core 8             | Object-Relational Mapper (ORM) for database operations.                            |
+| **Architecture**         | Clean Architecture (Layered Architecture) | Separates API, Application, Domain, and Infrastructure layers for maintainability. |
+| **ORM**                  | Entity Framework Core 8.0           | Object-Relational Mapper (ORM) for database operations.                            |
 | **Database**             | SQL Server                          | Relational database used to store application data.                                |
 | **Database Provider**    | EF Core SQL Server Provider         | Enables Entity Framework Core to communicate with SQL Server.                      |
 | **Database Migrations**  | EF Core Migrations                  | Manages database schema creation and updates.                                      |
@@ -103,7 +104,7 @@ sales-order-system/
 │   ├── SalesOrder.Domain/            # Domain entities
 │   │   └── Entities/
 │   │
-│   ├── SalesOrder.Infrastructure/    # Database, repositories & EF Core
+│   ├── SalesOrder.Infrastructure/    # Database, repositories & external services
 │   │   ├── Data/
 │   │   │   └── SeedData/
 │   │   ├── Migrations/
@@ -141,14 +142,14 @@ sales-order-system/
 └── README.md
 ```
 
-### 📁 Backend Layers
+#### 📁 Backend Layers
 
 - **SalesOrder.API**: Exposes REST API endpoints and handles HTTP requests.
 - **SalesOrder.Application**: Contains business logic, DTOs, interfaces, and services.
 - **SalesOrder.Domain**: Defines the core domain entities and business models.
 - **SalesOrder.Infrastructure**: Handles database access, Entity Framework Core, repositories, migrations, and seed data.
 
-### 📁 Frontend Structure
+#### 📁 Frontend Structure
 
 - **components**: Reusable UI components shared across the application.
 - **pages**: Main application screens (Home & Sales Order).
@@ -158,3 +159,132 @@ sales-order-system/
 - **utils**: Utility functions such as order calculations.
 
 ---
+
+## ⚙️ Setup & Installation
+Follow the steps below to set up and run the project successfully:
+
+#### ⚙️ Backend Setup
+
+#### 1. ✅ Clone the Repository
+Clone the repository and navigate to the backend directory:
+
+```bash
+git clone https://github.com/PAIshanMadusha/sales-order-system.git
+cd sales-order-system/backend
+```
+
+#### 2. ✅ Restore NuGet Packages
+Download all required NuGet packages defined in the project files:
+
+```bash
+dotnet restore
+```
+
+#### 3. ✅ Configure the Database
+Update the `appsettings.json` connection string according to your SQL Server instance:
+
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=YOUR_SERVER;Database=SalesOrderDB;Trusted_Connection=True;TrustServerCertificate=True;"
+}
+```
+
+#### 4. ✅ Apply Database Migrations
+Create and update the database using Entity Framework Core migrations:
+
+```bash
+dotnet ef database update --project SalesOrder.Infrastructure --startup-project SalesOrder.API
+```
+
+#### 5. ✅ Run the Backend API
+Start the backend server using the following command:
+
+```bash
+dotnet run --project SalesOrder.API
+```
+
+#### 6. ⚡ Access the Backend API
+After the application starts successfully, the API and Swagger documentation will be available at:
+
+```text
+http://localhost:5030
+```
+
+```text
+http://localhost:5030/swagger
+```
+
+#### 🌐 Frontend Setup
+
+#### 1. ✅ Install Dependencies
+Navigate to the frontend directory and install the required dependencies:
+
+```bash
+cd frontend
+npm install
+```
+
+#### 2. ✅ Configure Environment Variables (Optional)
+Create a `.env` file in the frontend root directory if required:
+
+```env
+VITE_API_URL=http://localhost:5030/api
+```
+
+#### 3. ⚡ Start the Development Server
+Run the following command to start the frontend application, the application will be available at:
+
+```bash
+npm run dev
+```
+
+```text
+http://localhost:5173
+```
+
+---
+
+## 🔌 API Endpoints
+The following REST API endpoints are available for managing clients, items, and sales orders:
+
+#### 📦 Customer & Item Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/client` | Retrieve all clients |
+| GET | `/api/client/{id}` | Retrieve a client by ID |
+| GET | `/api/item` | Retrieve all items |
+| GET | `/api/item/{id}` | Retrieve an item by ID |
+
+#### 🧾 Sales Order Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/salesorder` | Retrieve all sales orders |
+| GET | `/api/salesorder/{id}` | Retrieve a sales order by ID |
+| POST | `/api/salesorder` | Create a new sales order |
+| PUT | `/api/salesorder/{id}` | Update an existing sales order |
+| DELETE | `/api/salesorder/{id}` | Delete a sales order by ID |
+
+## 📸 System Screenshots
+These screenshots illustrate how the system appears on desktop:
+
+---
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/08e08289-7e18-40aa-acea-da3f5c91bfff" alt="Screenshot 1" width="800">
+  <img src="https://github.com/user-attachments/assets/b45e718e-b6ad-42d5-8995-6c93990db562" alt="Screenshot 2" width="800">
+  <img src="https://github.com/user-attachments/assets/02e83b0a-0718-4106-b261-99e6653e1599" alt="Screenshot 3" width="800">
+</p>
+
+---
+
+### 👨‍💻 Created by: 
+**Ishan Madhusha**  
+GitHub: [PAIshanMadusha](https://github.com/PAIshanMadusha)
+
+Feel free to explore my work and get in touch if you'd like to collaborate! 🚀
+
+---
+
+## 📝 License:  
+This project is licensed under the MIT License : See the [LICENSE](LICENSE) file for details.

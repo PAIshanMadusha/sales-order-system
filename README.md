@@ -57,10 +57,104 @@ A full-stack **Sales Order Management System** consisting of a **.NET 8 Web API*
 
 ---
 
+## 🛠️ Tech Stack
+The following technologies and tools are used throughout the project:
 
+| Layer                    | Technology                          | Description                                                                        |
+| :----------------------- | :---------------------------------- | :--------------------------------------------------------------------------------- |
+| **Backend Framework**    | .NET 8 Web API                      | RESTful API development using ASP.NET Core.                                        |
+| **Programming Language** | C#                                  | Primary language used for backend development.                                     |
+| **Architecture**         | Clean Architecture (Layered/N-Tier) | Separates API, Application, Domain, and Infrastructure layers for maintainability. |
+| **ORM**                  | Entity Framework Core 8             | Object-Relational Mapper (ORM) for database operations.                            |
+| **Database**             | SQL Server                          | Relational database used to store application data.                                |
+| **Database Provider**    | EF Core SQL Server Provider         | Enables Entity Framework Core to communicate with SQL Server.                      |
+| **Database Migrations**  | EF Core Migrations                  | Manages database schema creation and updates.                                      |
+| **Dependency Injection** | ASP.NET Core Dependency Injection   | Built-in dependency injection for services and repositories.                       |
+| **API Documentation**    | Swagger (Swashbuckle)               | Interactive API documentation and testing interface.                               |
+| **Object Mapping**       | AutoMapper                          | Simplifies mapping between entities and DTOs.                                      |
+| **Frontend Framework**   | React 19                            | Component-based frontend library for building the user interface.                  |
+| **State Management**     | Redux Toolkit                       | Centralized state management for orders and application data.                      |
+| **Routing**              | React Router                        | Client-side routing between application pages.                                     |
+| **HTTP Client**          | Axios                               | Handles communication between the frontend and backend APIs.                       |
+| **Styling**              | Tailwind CSS v4                     | Utility-first CSS framework for responsive UI development.                         |
+| **Build Tool**           | Vite                                | Fast frontend development server and build tool.                                   |
+| **Package Manager**      | npm                                 | Manages frontend dependencies and project scripts.                                 |
+| **Version Control**      | Git & GitHub                        | Source code management and version control.                                        |
 
+---
 
+## 🏗️ Architecture Overview
+The backend follows **Clean Architecture (Layered Architecture)**, while the frontend follows a **component-based architecture** using React, Redux, and reusable UI components. The project is organized into separate backend and frontend applications as shown below:
 
+```text
+sales-order-system/
+│
+├── backend/                          # .NET 8 Web API
+│   │
+│   ├── SalesOrder.API/               # API layer (Controllers & application entry point)
+│   │   ├── Controllers/
+│   │   └── Properties/
+│   │
+│   ├── SalesOrder.Application/       # Business logic, DTOs & service interfaces
+│   │   ├── Interfaces/
+│   │   ├── Models/
+│   │   └── Services/
+│   │
+│   ├── SalesOrder.Domain/            # Domain entities
+│   │   └── Entities/
+│   │
+│   ├── SalesOrder.Infrastructure/    # Database, repositories & EF Core
+│   │   ├── Data/
+│   │   │   └── SeedData/
+│   │   ├── Migrations/
+│   │   └── Repositories/
+│   │
+│   ├── SalesOrder.sln                # Solution file
+│   └── .gitignore
+│
+├── frontend/                         # React + Redux + Tailwind CSS
+│   │
+│   ├── public/                       # Static assets
+│   │
+│   ├── src/
+│   │   ├── components/               # Reusable UI components
+│   │   │   ├── common/
+│   │   │   └── sales-order/
+│   │   │
+│   │   ├── hooks/                    # Custom React hooks
+│   │   ├── pages/                    # Application pages
+│   │   ├── redux/                    # Redux store & slices
+│   │   │   └── slices/
+│   │   ├── services/                 # API service layer
+│   │   ├── utils/                    # Helper functions & calculations
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
+│   │
+│   ├── .env
+│   ├── .gitignore
+│   ├── index.html
+│   ├── package.json
+│   └── vite.config.js
+│
+├── LICENSE
+└── README.md
+```
 
+### 📁 Backend Layers
 
+- **SalesOrder.API**: Exposes REST API endpoints and handles HTTP requests.
+- **SalesOrder.Application**: Contains business logic, DTOs, interfaces, and services.
+- **SalesOrder.Domain**: Defines the core domain entities and business models.
+- **SalesOrder.Infrastructure**: Handles database access, Entity Framework Core, repositories, migrations, and seed data.
 
+### 📁 Frontend Structure
+
+- **components**: Reusable UI components shared across the application.
+- **pages**: Main application screens (Home & Sales Order).
+- **redux**: Centralized state management using Redux Toolkit.
+- **services**: API communication using Axios.
+- **hooks**: Custom React hooks.
+- **utils**: Utility functions such as order calculations.
+
+---
